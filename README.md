@@ -64,3 +64,10 @@ For each prime factor `p` whose exponent is `k`, it uses the closed-form divisor
 
 Multiplying this term over all prime factors yields the full divisor sum.
 Subtracting `n` produces the **proper** divisor sum.
+
+---
+
+## License
+
+© [Luis Maya Aranda](https://github.com/v0-3). All rights reserved.  
+Licensed under the **MIT License**.
