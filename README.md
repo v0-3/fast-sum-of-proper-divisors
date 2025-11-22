@@ -1,52 +1,66 @@
 # fast-sum-of-proper-divisors
 
-A highly optimized implementation for computing the **sum of proper divisors** of an integer.  
-Written in **C** for maximum performance, leveraging prime factorization to achieve significant speedups compared to naive divisor-scanning approaches.
+A high-performance C implementation for computing the **sum of proper divisors** of a 32-bit integer using **prime-factor decomposition**.
+The core function, `fast_sum_proper_divisors(uint32_t n)`, is optimized for speed and suitable for numerical analysis, number theory research, or competitive programming.
+
+This project uses a precomputed list of primes (`primes.h`) to accelerate factorization.
 
 ---
 
-## Overview
+## Features
 
-This project provides a fast function for computing the sum of proper divisors:
-
-```c
-unsigned int fast_sum(unsigned int n);
-```
-
-The implementation is located in **[fast.c](./fast.c)**.  
-It relies on prime factor decomposition and therefore requires including **[primes.h](./primes.h)**.
-
-The algorithm is designed for:
-
-- High-performance number theory computations  
-- Large-scale divisor sum evaluations  
-- Situations where repeated or batch computations are needed  
-- Environments where raw speed is critical and C is preferred
+- Modern C (C11) implementation
+- Prime-factor decomposition for sub-millisecond performance
+- Strict fixed-width integer usage (`uint32_t`)
+- Safe argument parsing with overflow protection
+- Clean separation between algorithm (`fastdiv.c`) and prime table (`primes.h`)
 
 ---
 
-## Files
+## Build Instructions
 
-- **fast.c**  
-  Contains the implementation of `fast_sum`, using prime factorization for efficient divisor-sum computation.
+Ensure that the following files exist:
 
-- **primes.h**  
-  Provides prime-related utilities required by the algorithm (e.g., factorization logic or precomputed primes).
+- `fastdiv.c` – contains the refactored implementation and `main()`
+- `primes.h` – defines the prime table (`P[]`, `P_COUNT`)
 
----
+Then compile:
 
-## Usage
-
-Include the necessary header and call `fast_sum()`:
-
-```c
-#include "primes.h"
-#include "fast.h"
-
-unsigned int result = fast_sum(100);  // returns 117
+```bash
+cc -std=c11 -O2 -Wall -Wextra -o fastdiv fastdiv.c
 ```
 
 ---
 
-© Luis Maya Aranda. All rights reserved.  
-Licensed under the MIT License.
+### Basic execution
+
+```
+./fastdiv <number>
+```
+
+If no number is provided, the program defaults to:
+
+```
+21387312
+```
+
+### Example
+
+```
+$ ./fastdiv 100
+Sum of proper divisors for (100): 117
+```
+
+---
+
+## How It Works
+
+The algorithm decomposes the input value into prime factors using the list in `primes.h`.
+For each prime factor `p` whose exponent is `k`, it uses the closed-form divisor-sum formula:
+
+```
+1 + p + p^2 + ... + p^k
+```
+
+Multiplying this term over all prime factors yields the full divisor sum.
+Subtracting `n` produces the **proper** divisor sum.
